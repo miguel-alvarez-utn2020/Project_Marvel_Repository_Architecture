@@ -1,0 +1,7 @@
+{
+  "name": "template_repository_architecture",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
