@@ -4,6 +4,8 @@ import { map, Observable } from 'rxjs';
 import { Hero } from 'src/app/core/models/hero/hero.model';
 import { HeroRepository } from 'src/app/core/models/hero/hero.repository';
 import { ApiResponse } from 'src/app/core/models/hero/response.model';
+import { apiEndpoints } from 'src/environments/endpoint-list';
+import { environment } from 'src/environments/environment.prod';
 
 
 @Injectable({
@@ -20,13 +22,23 @@ export class HerosRepositoryService implements HeroRepository {
 
 
   getHeroById(id: number): Observable<Hero>{
-    const url = 'https://gateway.marvel.com:443/v1/public/characters/1017100?apikey=74894c50af91c5f2d5b527b420981568'
-    //Logica endpoint
+    const url = `${environment.apiUrl}${apiEndpoints.getCharacters}/${id}?apikey=${environment.apiKey}`
+
     return this.httpClient.get<ApiResponse>(url).pipe(
       map((apiResponse: ApiResponse) => {
-        console.log('MAP', apiResponse.data.results[0]);
-
         return apiResponse.data.results[0]
+      })
+    );
+  }
+
+  getHeroList(): Observable<Hero[]>{
+    const url = apiEndpoints.getCharacters();
+
+    return this.httpClient.get<ApiResponse>(url).pipe(
+      map((apiResponse: ApiResponse) => {
+        console.log(apiResponse);
+
+        return apiResponse.data.results
       })
     );
   }

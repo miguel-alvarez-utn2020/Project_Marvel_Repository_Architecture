@@ -1,3 +1,6 @@
+import { Hero } from "./hero.model";
+
+
 export interface ApiResponse {
   code:            number;
   status:          string;
@@ -8,26 +11,14 @@ export interface ApiResponse {
   data:            Data;
 }
 
+
+
 export interface Data {
   offset:  number;
   limit:   number;
   total:   number;
   count:   number;
-  results: Result[];
-}
-
-export interface Result {
-  id:          number;
-  name:        string;
-  description: string;
-  modified:    string;
-  thumbnail:   Thumbnail;
-  resourceURI: string;
-  comics:      Comics;
-  series:      Comics;
-  stories:     Stories;
-  events:      Comics;
-  urls:        URL[];
+  results: Hero[];
 }
 
 export interface Comics {

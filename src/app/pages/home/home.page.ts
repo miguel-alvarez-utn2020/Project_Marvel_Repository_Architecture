@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonText } from '@ionic/angular/standalone';
-import { HerosService } from 'src/app/data/services/heros.service';
+import { IonContent, IonHeader, IonText, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { Observable, of } from 'rxjs';
 import { Hero } from 'src/app/core/models/hero/hero.model';
+import { HerosService } from 'src/app/data/services/heros.service';
+import { MOCK_RESPONSE } from 'src/app/data/services/mock-response';
 
 
 @Component({
@@ -14,22 +16,13 @@ import { Hero } from 'src/app/core/models/hero/hero.model';
 })
 export class HomePage implements OnInit {
 
-  public hero: Hero;
-
-  constructor(private heroService: HerosService) {
-    this.hero = {} as Hero
-  }
-
+  // public heroList!: Observable<Hero[]>;
+  public heroList!: Observable<any[]>;
+  private heroService = inject(HerosService)
+  private mockResponse = MOCK_RESPONSE;
   ngOnInit() {
-    this.heroService.getHeroById(13).subscribe({
-      next: (hero: Hero) => {
-        console.log(hero);
-        this.hero = hero;
-      },
-      error: (error) => {
-        console.log('Error', error);
-      },
-    })
+    // this.heroList = this.heroService.getHeroList();
+    this.heroList = of(this.mockResponse.data.results)
   }
 
 }
